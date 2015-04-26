@@ -58,7 +58,7 @@ void BinarySearchTree::addDataNode(string in_commonName, string in_sciName, stri
 	return;
 }
 
-void BinarySearchTree::findDataNode(std::string commonName) {
+void BinarySearchTree::findDataNode(string commonName) {
 	dataNode* x = searchBSTTree(root, commonName);
 	if (x == NULL) {
 		cout << "data not found" << endl;
@@ -68,7 +68,64 @@ void BinarySearchTree::findDataNode(std::string commonName) {
 	}
 }
 
-
+void BinarySearchTree::deleteDataNode(string commonName) {
+	dataNode *x = searchBSTTree(root, commonName);
+	if (x) {
+		if (x->parent != NULL) {
+			if ((x->left == NULL) && (x->right == NULL)) {  // no children
+				if (x->parent->left == x) {
+					x->parent->left = NULL;
+				} else {
+					x->parent->right = NULL;
+				}
+				delete x;
+			} else if ((x->left != NULL) && (x->right == NULL)) {  // left child only
+				if (x->parent->left == x) {
+					x->parent->left = x->left;
+				} else {
+					x->parent->right = x->left;
+				}
+				x->left->parent = x->parent;
+				delete x;
+			} else if ((x->left == NULL) && (x->right == NULL)) {  // right child only
+				if (x->parent->left == x) {
+					x->parent->left = x->right;
+				} else {
+					x->parent->right = x->right;
+				}
+				x->right->parent = x->parent;
+				delete x;
+			} else {  // both left and right children
+				dataNode *replace = x->right;
+				while (replace->left != NULL) {
+					replace = replace->left;
+				}
+				x->commonName = replace->commonName;
+				x->sciName = replace->sciName;
+				for (int i = 0; i < replace->count; i++) {
+					 x->phenophase[i] = replace->phenophase[i];
+					 x->elevation[i] = replace->elevation[i];
+					 x->siteID[i] = replace->siteID[i];
+					 x->date[i] = replace->date[i];
+				}
+				x->count = replace->count;
+				if (replace->left != NULL) {  //112-114 necessary?
+					replace->right->parent = replace->parent;
+				}
+				if (replace->parent->left == replace) {
+					replace->parent->left = replace->right;
+				} else {
+					replace->parent->right = replace->right;
+				}
+			}
+		} else if ((x->parent == NULL) && (x->right == NULL) && (x->left == NULL)) {
+			root = NULL;
+			delete x;
+		}	
+	} else {
+		cout << "data not found" << endl;
+	}
+}
 
 
 // private
