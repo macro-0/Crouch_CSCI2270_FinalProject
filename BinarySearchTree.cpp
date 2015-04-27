@@ -59,7 +59,7 @@ void BinarySearchTree::addDataNode(string in_commonName, string in_sciName, stri
 }
 
 void BinarySearchTree::findDataNode(string commonName) {
-	dataNode* x = searchBSTTree(root, commonName);
+	dataNode* x = searchBSTree(root, commonName);
 	if (x == NULL) {
 		cout << "data not found" << endl;
 	} else {
@@ -69,7 +69,7 @@ void BinarySearchTree::findDataNode(string commonName) {
 }
 
 void BinarySearchTree::deleteDataNode(string commonName) {
-	dataNode *x = searchBSTTree(root, commonName);
+	dataNode *x = searchBSTree(root, commonName);
 	if (x) {
 		if (x->parent != NULL) {
 			if ((x->left == NULL) && (x->right == NULL)) {  // no children
@@ -171,16 +171,16 @@ void BinarySearchTree::printNode(dataNode *node) {
 	} cout << node->siteID[node->siteID.size()-1] << endl;
 }
 
-dataNode* BinarySearchTree::searchBSTTree(dataNode *node, std::string in_commonName) {
+dataNode* BinarySearchTree::searchBSTree(dataNode *node, std::string in_commonName) {
 	if (node == NULL) {
 		return NULL;
 	} else if (node->commonName == in_commonName) {
 		return node;
 	} else {
 		if (in_commonName.compare(node->commonName) < 0) {
-			return searchBSTTree(node->left, in_commonName);
+			return searchBSTree(node->left, in_commonName);
 		} else {
-			return searchBSTTree(node->right, in_commonName);
+			return searchBSTree(node->right, in_commonName);
 		}
 	}
 }
