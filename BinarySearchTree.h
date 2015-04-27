@@ -29,6 +29,7 @@ struct dataNode {
 		count = 0;
 		left = NULL;
 		right = NULL;
+		parent = NULL;
 	}
 };
 
@@ -41,14 +42,13 @@ class BinarySearchTree {
 		void findDataNode(std::string commonName);
 		void deleteDataNode(std::string commonName);
 		
-		
 	protected:
 	
 	private:
 		void deleteAll(dataNode *node);  // postorder
 		void printTree(dataNode *node);
 		void printNode(dataNode *node);
-		dataNode* searchBSTTree(dataNode *node, std::string commonName);
+		dataNode* searchBSTree(dataNode *node, std::string commonName);
 		dataNode *root;
 };
 
