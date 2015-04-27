@@ -1,0 +1,17 @@
+Site_ID,Latitude,Longitude,Elevation_in_Meters,State,Species_ID,Genus,Species,Common_Name,Individual_ID,Phenophase_ID,Phenophase_Description,First_Yes_Year,First_Yes_Month,First_Yes_Day,First_Yes_DOY,First_Yes_Julian_Date,NumDays_Since_Prior_No,Last_Yes_Year,Last_Yes_Month,Last_Yes_Day,Last_Yes_DOY,Last_Yes_Julian_Date,NumDays_Until_Next_No
+60,37.884998,-102.667603,1223,CO,35,Syringa,chinensis,Red Rothomagensis lilac,1716,205,Open flowers (lilac),2014,4,23,113,2456771,7,2014,6,11,162,2456820,119
+60,37.884998,-102.667603,1223,CO,35,Syringa,chinensis,Red Rothomagensis lilac,1716,206,Full flowering (lilac),2014,5,14,134,2456792,7,2014,6,11,162,2456820,119
+60,37.884998,-102.667603,1223,CO,35,Syringa,chinensis,Red Rothomagensis lilac,1716,207,End of flowering (lilac/honeysuckle),2014,5,28,148,2456806,14,2014,6,11,162,2456820,119
+60,37.884998,-102.667603,1223,CO,35,Syringa,chinensis,Red Rothomagensis lilac,1716,373,Breaking leaf buds (lilac/honeysuckle),2014,3,26,85,2456743,-9999,2014,6,11,162,2456820,119
+60,37.884998,-102.667603,1223,CO,35,Syringa,chinensis,Red Rothomagensis lilac,1716,374,All leaf buds broken (lilac/honeysuckle),2014,3,26,85,2456743,-9999,2014,6,11,162,2456820,119
+63,40.965267,-105.218773,2136,CO,36,Syringa,vulgaris,common lilac,2955,205,Open flowers (lilac),2014,6,6,157,2456815,7,2014,6,14,165,2456823,-9999
+63,40.965267,-105.218773,2136,CO,36,Syringa,vulgaris,common lilac,2955,373,Breaking leaf buds (lilac/honeysuckle),2014,4,12,102,2456760,4,2014,6,14,165,2456823,-9999
+63,40.965267,-105.218773,2136,CO,36,Syringa,vulgaris,common lilac,2955,374,All leaf buds broken (lilac/honeysuckle),2014,4,26,116,2456774,4,2014,6,14,165,2456823,-9999
+63,40.965267,-105.218773,2136,CO,35,Syringa,chinensis,Red Rothomagensis lilac,2957,205,Open flowers (lilac),2014,5,30,150,2456808,6,2014,6,14,165,2456823,-9999
+63,40.965267,-105.218773,2136,CO,35,Syringa,chinensis,Red Rothomagensis lilac,2957,206,Full flowering (lilac),2014,6,6,157,2456815,7,2014,6,14,165,2456823,-9999
+63,40.965267,-105.218773,2136,CO,35,Syringa,chinensis,Red Rothomagensis lilac,2957,207,End of flowering (lilac/honeysuckle),2014,6,14,165,2456823,15,2014,6,14,165,2456823,-9999
+63,40.965267,-105.218773,2136,CO,35,Syringa,chinensis,Red Rothomagensis lilac,2957,373,Breaking leaf buds (lilac/honeysuckle),2014,4,18,108,2456766,2,2014,6,14,165,2456823,-9999
+63,40.965267,-105.218773,2136,CO,35,Syringa,chinensis,Red Rothomagensis lilac,2957,374,All leaf buds broken (lilac/honeysuckle),2014,4,30,120,2456778,4,2014,6,14,165,2456823,-9999
+261,39.098499,-104.834297,2191,CO,36,Syringa,vulgaris,common lilac,3453,373,Breaking leaf buds (lilac/honeysuckle),2014,5,4,124,2456782,1,2014,5,15,135,2456793,-9999
+261,39.098499,-104.834297,2191,CO,36,Syringa,vulgaris,common lilac,3453,374,All leaf buds broken (lilac/honeysuckle),2014,5,4,124,2456782,1,2014,5,15,135,2456793,-9999
+261,39.098499,-104.834297,2191,CO,27,Populus,tremuloides,quaking aspen,3454,500,Flowers or flower buds,2014,5,3,123,2456781,14,2014,5,4,124,2456782,7

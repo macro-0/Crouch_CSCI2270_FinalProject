@@ -5,7 +5,7 @@
 #include <string.h>  // compare
 #include <algorithm>  // transform
 #include "BinarySearchTree.h"
-#include "RedBlackBST.h"
+//#include "RedBlackBST.h"
 
 // todo: search either by scientific name or by common name
 // todo: add functions to allow user to completely clear current tree
@@ -17,7 +17,7 @@ using namespace std;
 
 void printMenu();
 void readIn(BinarySearchTree *bst, char *filename);
-void readIn(RedBlackTree *rb, char *filename);
+//void readIn(RedBlackTree *rb, char *filename);
 
 int main(int argc, char* argv[]) {
 	
@@ -25,7 +25,6 @@ int main(int argc, char* argv[]) {
 	string str_choice = "";
 	int choice = -1;
 	bool quit = false;
-	bool bstQuit = false;
 	bool rbBstQuit = false;
 	
 	string commonName = "";
@@ -42,6 +41,7 @@ int main(int argc, char* argv[]) {
 		cout << "Please enter which type of tree you would like to build: (u)nbalanced or (r)ed-black, or (q)uit: " << endl;
 		getline(cin, tree_choice);
 		if (tree_choice == "u") {
+			bool bstQuit = false;
 			cout << "You have chosen: unbalanced BST" << endl;
 			BinarySearchTree *bst = new BinarySearchTree();
 			readIn(bst, argv[1]); 
@@ -56,9 +56,7 @@ int main(int argc, char* argv[]) {
 					case 2:
 						cout << "enter common name: " << endl;
 						getline(cin, commonName);
-						cout << commonName << endl;
 						transform(commonName.begin(), commonName.end(), commonName.begin(), ::tolower);  // method from http://blog.fourthwoods.com/2013/12/10/convert-c-string-to-lower-case-or-upper-case/
-						cout << commonName << endl;
 						cout << "enter scientific name: " << endl;
 						getline(cin, sciName);
 						cout << "enter phenophase: " << endl;
@@ -92,16 +90,18 @@ int main(int argc, char* argv[]) {
 				}
 			}
 		} else if (tree_choice == "r") { 
+			bool rbQuit = false;
 			cout << "You have chosen: red-black BST" << endl;
-			RedBlackTree *rb = new RedBlackTree();
-			readIn(rb, argv[1]); 
-			while (!rbBstQuit) {
+			//RedBlackTree *rb = new RedBlackTree();
+			//readIn(rb, argv[1]);
+			 
+			while (!rbQuit) {
 				printMenu();
 				getline(cin, str_choice);
 				choice = stoi(str_choice);
 				switch(choice) {
 					case 1:
-					rb->printTree();
+					//rb->printTree();
 						break;
 					case 2:
 						break;
@@ -137,6 +137,7 @@ void printMenu() {
 	cout << "4. delete data" << endl;
 	cout << "5: quit" << endl;
 }
+
 
 void readIn(BinarySearchTree *bst, char *filename) {
 	ifstream infile(filename);
@@ -187,6 +188,9 @@ void readIn(BinarySearchTree *bst, char *filename) {
 	}
 }
 
+
+/*
+
 void readIn(RedBlackBST *rb, char *filename) {
 	ifstream infile(filename);
 	cout << filename << endl;
@@ -235,3 +239,5 @@ void readIn(RedBlackBST *rb, char *filename) {
 		cout << "Error opening infile, please check CLA" << endl;
 	}
 }
+
+*/
