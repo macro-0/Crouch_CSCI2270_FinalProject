@@ -5,7 +5,7 @@
 #include <string.h>  // compare
 #include <algorithm>  // transform
 #include "BinarySearchTree.h"
-//#include "RedBlackBST.h"
+#include "RedBlackTree.h"
 
 // todo: search either by scientific name or by common name
 // todo: add functions to allow user to completely clear current tree
@@ -17,7 +17,7 @@ using namespace std;
 
 void printMenu();
 void readIn(BinarySearchTree *bst, char *filename);
-//void readIn(RedBlackTree *rb, char *filename);
+void readIn(RedBlackTree *rb, char *filename);
 
 int main(int argc, char* argv[]) {
 	
@@ -25,7 +25,6 @@ int main(int argc, char* argv[]) {
 	string str_choice = "";
 	int choice = -1;
 	bool quit = false;
-	bool rbBstQuit = false;
 	
 	string commonName = "";
 	string sciName = "";
@@ -36,7 +35,6 @@ int main(int argc, char* argv[]) {
 	int siteID = 0;
 	string date = "";
 	
-	//bst->addDataNode(commonName, sciName, phenophase, elevation, siteID, date, count);
 	while (!quit) {
 		cout << "Please enter which type of tree you would like to build: (u)nbalanced or (r)ed-black, or (q)uit: " << endl;
 		getline(cin, tree_choice);
@@ -92,8 +90,8 @@ int main(int argc, char* argv[]) {
 		} else if (tree_choice == "r") { 
 			bool rbQuit = false;
 			cout << "You have chosen: red-black BST" << endl;
-			//RedBlackTree *rb = new RedBlackTree();
-			//readIn(rb, argv[1]);
+			RedBlackTree *rb = new RedBlackTree();
+			readIn(rb, argv[1]);
 			 
 			while (!rbQuit) {
 				printMenu();
@@ -101,7 +99,7 @@ int main(int argc, char* argv[]) {
 				choice = stoi(str_choice);
 				switch(choice) {
 					case 1:
-					//rb->printTree();
+						rb->printTree();
 						break;
 					case 2:
 						break;
@@ -110,7 +108,7 @@ int main(int argc, char* argv[]) {
 					case 4:
 						break;
 					case 5:
-						rbBstQuit = true;
+						rbQuit = true;
 						break;
 					default:
 						cout << "invalid input, please try again" << endl;
@@ -135,9 +133,8 @@ void printMenu() {
 	cout << "2: add data" << endl;
 	cout << "3: find data" << endl;
 	cout << "4. delete data" << endl;
-	cout << "5: quit" << endl;
+	cout << "5: exit to main menu" << endl;
 }
-
 
 void readIn(BinarySearchTree *bst, char *filename) {
 	ifstream infile(filename);
@@ -189,9 +186,7 @@ void readIn(BinarySearchTree *bst, char *filename) {
 }
 
 
-/*
-
-void readIn(RedBlackBST *rb, char *filename) {
+void readIn(RedBlackTree *rb, char *filename) {
 	ifstream infile(filename);
 	cout << filename << endl;
 	
@@ -227,7 +222,6 @@ void readIn(RedBlackBST *rb, char *filename) {
 					in_date += "0";
 				}
 				in_date += data[13] + data[14] + data[12]; 
-								
 				//bst->addDataNode(commonName, sciName, phenophase, elevation, siteID, date, count);
 				rb->addDataNode(commonName, sciName, data[11], atoi(data[3].c_str()), atoi(data[0].c_str()), in_date, 0);
 				in_date = "";  // reset
@@ -239,5 +233,3 @@ void readIn(RedBlackBST *rb, char *filename) {
 		cout << "Error opening infile, please check CLA" << endl;
 	}
 }
-
-*/
