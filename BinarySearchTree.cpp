@@ -11,10 +11,12 @@ using std::string;
 
 BinarySearchTree::BinarySearchTree() {
 	root = NULL;
+	//ctor
 }
 
 BinarySearchTree::~BinarySearchTree() {
 	deleteAll(root);
+	//dtor
 }
 
 void BinarySearchTree::printTree() {
@@ -109,7 +111,7 @@ void BinarySearchTree::deleteDataNode(string commonName) {
 					 x->date[i] = replace->date[i];
 				}
 				x->count = replace->count;
-				if (replace->left != NULL) {  //112-114 necessary?
+				if (replace->left != NULL) {
 					replace->right->parent = replace->parent;
 				}
 				if (replace->parent->left == replace) {
@@ -118,10 +120,98 @@ void BinarySearchTree::deleteDataNode(string commonName) {
 					replace->parent->right = replace->right;
 				}
 			}
-		} else if ((x->parent == NULL) && (x->right == NULL) && (x->left == NULL)) {
-			root = NULL;
-			delete x;
-		}	
+		} else {  // x->parent = NULL; x is the root
+			if (x->right == NULL && x->left == NULL) {
+				root = NULL;
+				delete x;
+			} else {
+				dataNode *replace = x;
+				if (x->left != NULL && x->right == NULL) {  // no nodes to right of root
+					replace = x->left;
+					if (replace->right == NULL) {
+						replace->parent = NULL;
+						root = replace;
+					} else {
+						while (replace->right != NULL) {
+							replace = replace->right;  // maximum node in left subtree
+						}
+						if (replace->left == NULL) {
+							replace->parent->right = NULL;
+							replace->left = x->left;
+							x->left->parent = replace;
+							replace->parent = NULL;
+							root = replace;
+						} else {
+							replace->parent->right = replace->left;
+							replace->left->parent = replace->parent;
+							replace->left = x->left;
+							x->left->parent = replace;
+							replace->parent = NULL;
+							root = replace;
+						}
+					}
+					delete x;
+					
+				} else if (x->right != NULL && x->left == NULL) {  // no nodes to left of root
+					if (replace->left == NULL) {
+						replace->parent = NULL;
+						root = replace;
+					} else {
+						while (replace->left != NULL) {
+							replace = replace->left;  // minimum node in left subtree
+						}
+						if (replace->right == NULL) {
+							replace->parent->left = NULL;
+							replace->right = x->right;
+							x->right->parent = replace;
+							replace->parent = NULL;
+							root = replace;
+						} else {
+							replace->parent->left = replace->right;
+							replace->right->parent = replace->parent;
+							replace->right = x->right;
+							x->right->parent = replace;
+							replace->parent = NULL;
+							root = replace;
+						}
+					}
+					delete x;
+					
+				} else {  // nodes to both sides, replace w/ maximum node on left
+					replace = x->left;
+					if (replace->right == NULL) {
+						replace->right = x->right;
+						x->right->parent = replace;
+						replace->parent = NULL;
+						root = replace;
+					} else {
+						while (replace->right != NULL) {
+							replace = replace->right;
+						}
+						if (replace->left == NULL) {
+							replace->parent->right = NULL;
+							replace->left = x->left;
+							x->left->parent = replace;
+							replace->right = x->right;
+							x->right->parent = replace;
+							replace->parent = NULL;
+							root = replace;
+						} else {
+							replace->parent->right = replace->left;
+							replace->left->parent = replace->parent;
+							replace->left = x->left;
+							x->left->parent = replace;
+							replace->parent = NULL;
+							replace->right = x->right;
+							x->right->parent = replace;
+							replace->parent = NULL;
+							root = replace;
+						}
+					delete x;
+					}
+				}
+			}
+		}
 	} else {
 		cout << "data not found" << endl;
 	}
@@ -145,8 +235,15 @@ void BinarySearchTree::deleteAll(dataNode *node) {
 	return;
 }
 
+/*
+ * Prototype: void BinarySearchTree::printTree(dataNode *node);
+ * Description: This method does an in-order traversal of the tree in order
+ * 		to print each node to the terminal. Handles empty-tree case (no data 
+ * 		nodes).
+*/
+
 void BinarySearchTree::printTree(dataNode *node) {
-	if (node == NULL) {
+	if (!node) {
 		cout << "no nodes in tree" << endl;
 		return;
 	} else {
