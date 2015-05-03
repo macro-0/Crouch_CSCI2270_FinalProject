@@ -195,7 +195,7 @@ void RedBlackTree::printNode(rbNode *node, bool lookUp) {
                     }
                     else{
                         cout<<node->date[i].substr(0,2)<<"/"<<node->date[i].substr(2,1)<<"/"<<node->date[i].substr(3,4)<<": " <<node->phenophase[i]<<endl;
-                        cout<<"Phenophase:"<<node->phenophase[i]<<endl;
+
 
                     }
 
