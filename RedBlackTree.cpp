@@ -31,10 +31,10 @@ void RedBlackTree::addDataNode(string in_commonName, string in_sciName, string i
 	rbNode *newNode = new rbNode (in_commonName, in_sciName, in_phenophase, in_elevation, in_siteID, in_date, count);
 	newNode->left = nil;
 	newNode->right = nil;
-	
+
 	rbNode *x = root;
 	rbNode *y = NULL;
-	
+
 	if (root == nil) {
 		root = newNode;
 		newNode->parent = NULL;
@@ -48,7 +48,7 @@ void RedBlackTree::addDataNode(string in_commonName, string in_sciName, string i
 				x = x->right;
 			}
 		}
-		
+
 		if (y != nil && y != NULL) {
 			if (newNode->commonName != y->commonName) {
 				newNode->parent = y;
@@ -65,10 +65,10 @@ void RedBlackTree::addDataNode(string in_commonName, string in_sciName, string i
 				y->elevation.push_back(in_elevation);
 				y->siteID.push_back(in_siteID);
 				y->date.push_back(in_date);
-			}	
+			}
 		}
 	}
-	
+
 	return;
 }
 
@@ -78,7 +78,7 @@ void RedBlackTree::findDataNode(string commonName) {
 		cout << "data not found" << endl;
 	} else {
 		cout << "data information: " << endl;
-		printNode(x);
+		printNode(x, true);
 	}
 	return;
 }
@@ -88,7 +88,7 @@ void RedBlackTree::deleteDataNode(string commonName) {
 	rbNode *y = z;
 	rbNode *x = nil;
 	bool yOrigColor = y->isRed;
-	
+
 	if (z->left == nil) {
 		x = z->right;
 		rbTransplant(z, z->right);  // todo
@@ -115,7 +115,7 @@ void RedBlackTree::deleteDataNode(string commonName) {
 		y->isRed = z->isRed;
 	}
 	delete z;
-	
+
 	if (!yOrigColor) {
 		rbDeleteFixup(x);
 	}
@@ -148,7 +148,7 @@ void RedBlackTree::printTree(rbNode *node) {
 		if (node->left != nil) {
 			printTree(node->left);
 		}
-		printNode(node);
+		printNode(node, false);
 		if (node->right != nil) {
 			printTree(node->right);
 		}
@@ -156,14 +156,58 @@ void RedBlackTree::printTree(rbNode *node) {
 	}
 }
 
-void RedBlackTree::printNode(rbNode *node) {
+void RedBlackTree::printNode(rbNode *node, bool lookUp) {
 	cout << "Common name: " << node->commonName << endl;
 	cout << "Scientific name: " << node->sciName << endl;
 	cout << "Number of records: " << node->count << endl;
 	cout << "Site ID(s): ";
 	for (unsigned int i = 0; i < (node->siteID).size()-1; i++) {
-		cout << node->siteID[i] << ", ";
+		cout << node->siteID[i]<<",";
 	} cout << node->siteID[node->siteID.size()-1] << endl;
+
+
+    if(lookUp){//only an option when the user has searched for a specimen by common name (not when printing entire tree)
+        std::string input = "blah";
+        while(input != "y" && input != "n"){//loop until user provides valid input
+            cout<<"Would you like more information on a site ID? (y)es or (n)o" <<endl;
+            std::getline(std::cin, input);
+        }
+
+        if(input =="y"){
+            std::string ID = " ";
+
+            while(ID.compare(" ") == 0){
+                cout<<"What is the site ID?"<<endl;
+                getline(std::cin, ID);
+            }
+
+            bool found = false;//indicates whether at least one with the same index has been found
+            for(unsigned int i=0; i < (node->siteID).size(); i++){
+               if(std::to_string(node->siteID[i]).compare(ID)== 0){//change to string to more easily handle invalid user input(e.g. string instead of int)
+                    if(!found){//first instance in vector
+                        cout<<"Site ID:" << node->siteID[i]<<endl;
+                        cout<<"Elevation:" <<node->elevation[i]<<endl;
+                        cout<<"----------"<<endl;
+                        found = true;
+                    }
+                    if(node->date[i].length() ==8){
+                        cout<<node->date[i].substr(0,2)<<"/"<<node->date[i].substr(2,2)<<"/"<<node->date[i].substr(4,4)<< ": " <<node->phenophase[i]<<endl;
+                    }
+                    else{
+                        cout<<node->date[i].substr(0,2)<<"/"<<node->date[i].substr(2,1)<<"/"<<node->date[i].substr(3,4)<<": " <<node->phenophase[i]<<endl;
+                        cout<<"Phenophase:"<<node->phenophase[i]<<endl;
+
+                    }
+
+                }
+            }
+
+            if(!found){
+                cout<<"Sorry, that ID could not be found" <<endl;
+            }
+
+            }
+        }
 }
 
 rbNode* RedBlackTree::searchRBTree(rbNode *node, std::string in_commonName) {
@@ -184,7 +228,7 @@ void RedBlackTree::rbAddFixup(rbNode *node) {
 	rbNode *uncle = NULL;
 	node->left = nil;
 	node->right = nil;
-	
+
 	while (node != root && node->parent->isRed) {
 			cout << "check" << endl;
 
@@ -240,7 +284,7 @@ void RedBlackTree::rbDeleteFixup(rbNode *node) {
 				leftRotate(node->parent);
 				w = node->parent->right;
 			}
-			
+
 			if (!w->left->isRed && !w->right->isRed) {
 				w->isRed = true;
 				node = node->parent;
@@ -258,7 +302,7 @@ void RedBlackTree::rbDeleteFixup(rbNode *node) {
 				node = root;
 			}
 		}
-		
+
 		else {
 			w = node->parent->right;
 			if (w->isRed) {
@@ -267,7 +311,7 @@ void RedBlackTree::rbDeleteFixup(rbNode *node) {
 				rightRotate(node->parent);
 				w = node->parent->left;
 			}
-			
+
 			if (!w->left->isRed && !w->right->isRed) {
 				w->isRed = true;
 				node = node->parent;
@@ -285,7 +329,7 @@ void RedBlackTree::rbDeleteFixup(rbNode *node) {
 				node = root;
 			}
 		}
-	} 
+	}
 	node->isRed = false;
 	return;
 }
@@ -328,7 +372,7 @@ void RedBlackTree::rightRotate(rbNode *x) {
 	x->left = y->right;
 	if (y->right != nil) {
 		y->right->parent = x;
-	} 
+	}
 	y->parent = x->parent;
 	if (x->parent == nil) {
 		root = y;

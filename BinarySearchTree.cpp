@@ -55,7 +55,7 @@ void BinarySearchTree::addDataNode(string in_commonName, string in_sciName, stri
 			y->elevation.push_back(in_elevation);
 			y->siteID.push_back(in_siteID);
 			y->date.push_back(in_date);
-		}	
+		}
 	}
 	return;
 }
@@ -66,7 +66,7 @@ void BinarySearchTree::findDataNode(string commonName) {
 		cout << "data not found" << endl;
 	} else {
 		cout << "data information: " << endl;
-		printNode(x);
+		printNode(x, true);
 	}
 }
 
@@ -151,7 +151,7 @@ void BinarySearchTree::deleteDataNode(string commonName) {
 						}
 					}
 					delete x;
-					
+
 				} else if (x->right != NULL && x->left == NULL) {  // no nodes to left of root
 					if (replace->left == NULL) {
 						replace->parent = NULL;
@@ -176,7 +176,7 @@ void BinarySearchTree::deleteDataNode(string commonName) {
 						}
 					}
 					delete x;
-					
+
 				} else {  // nodes to both sides, replace w/ maximum node on left
 					replace = x->left;
 					if (replace->right == NULL) {
@@ -238,7 +238,7 @@ void BinarySearchTree::deleteAll(dataNode *node) {
 /*
  * Prototype: void BinarySearchTree::printTree(dataNode *node);
  * Description: This method does an in-order traversal of the tree in order
- * 		to print each node to the terminal. Handles empty-tree case (no data 
+ * 		to print each node to the terminal. Handles empty-tree case (no data
  * 		nodes).
 */
 
@@ -250,7 +250,7 @@ void BinarySearchTree::printTree(dataNode *node) {
 		if (node->left != NULL) {
 			printTree(node->left);
 		}
-		printNode(node);
+		printNode(node, false);
 		if (node->right != NULL) {
 			printTree(node->right);
 		}
@@ -258,15 +258,61 @@ void BinarySearchTree::printTree(dataNode *node) {
 	}
 }
 
-void BinarySearchTree::printNode(dataNode *node) {
+void BinarySearchTree::printNode(dataNode *node, bool lookUp) {
 	cout << "Common name: " << node->commonName << endl;
 	cout << "Scientific name: " << node->sciName << endl;
 	cout << "Number of records: " << node->count << endl;
 	cout << "Site ID(s): ";
 	for (unsigned int i = 0; i < (node->siteID).size()-1; i++) {
-		cout << node->siteID[i] << ", ";
+		cout << node->siteID[i]<<",";
 	} cout << node->siteID[node->siteID.size()-1] << endl;
+
+
+    if(lookUp){//only an option when the user has searched for a specimen by common name (not when printing entire tree)
+        std::string input = "blah";
+        while(input != "y" && input != "n"){//loop until user provides valid input
+            cout<<"Would you like more information on a site ID? (y)es or (n)o" <<endl;
+            std::getline(std::cin, input);
+        }
+
+        if(input =="y"){
+            std::string ID = " ";
+
+            while(ID.compare(" ") == 0){
+                cout<<"What is the site ID?"<<endl;
+                getline(std::cin, ID);
+            }
+
+            bool found = false;//indicates whether at least one with the same index has been found
+            for(unsigned int i=0; i < (node->siteID).size(); i++){
+               if(std::to_string(node->siteID[i]).compare(ID)== 0){//change to string to more easily handle invalid user input(e.g. string instead of int)
+                    if(!found){//first instance in vector
+                        cout<<"Site ID:" << node->siteID[i]<<endl;
+                        cout<<"Elevation:" <<node->elevation[i]<<endl;
+                        cout<<"----------"<<endl;
+                        found = true;
+                    }
+                    if(node->date[i].length() ==8){//different formatting depending on whether day of month was one character or two
+                        cout<<node->date[i].substr(0,2)<<"/"<<node->date[i].substr(2,2)<<"/"<<node->date[i].substr(4,4)<< ": " <<node->phenophase[i]<<endl;
+                    }
+                    else{
+                        cout<<node->date[i].substr(0,2)<<"/"<<node->date[i].substr(2,1)<<"/"<<node->date[i].substr(3,4)<<": " <<node->phenophase[i]<<endl;
+
+                    }
+
+                }
+            }
+
+            if(!found){
+                cout<<"Sorry, that ID could not be found" <<endl;
+            }
+
+            }
+        }
 }
+
+
+
 
 dataNode* BinarySearchTree::searchBSTree(dataNode *node, std::string in_commonName) {
 	if (node == NULL) {
