@@ -123,6 +123,15 @@ void RedBlackTree::deleteDataNode(string commonName) {  // fix seg faults here
 	}
 }
 
+bool RedBlackTree::isValid() {
+	if (rbValid(root) == 0) {
+		return false;
+	} else {
+		cout << "Black height: " << rbValid(root) << endl;
+		return true;
+	}
+}
+
 
 // private
 
@@ -167,48 +176,43 @@ void RedBlackTree::printNode(rbNode *node, bool lookUp) {
 		cout << node->siteID[i]<<",";
 	} cout << node->siteID[node->siteID.size()-1] << endl;
 
+	if(lookUp){//only an option when the user has searched for a specimen by common name (not when printing entire tree)
+        	std::string input = "blah";
+        	while(input != "y" && input != "n"){//loop until user provides valid input
+            		cout<<"Would you like more information on a site ID? (y)es or (n)o" <<endl;
+            		std::getline(std::cin, input);
+        	}
 
-    if(lookUp){//only an option when the user has searched for a specimen by common name (not when printing entire tree)
-        std::string input = "blah";
-        while(input != "y" && input != "n"){//loop until user provides valid input
-            cout<<"Would you like more information on a site ID? (y)es or (n)o" <<endl;
-            std::getline(std::cin, input);
-        }
+        	if(input =="y"){
+            		std::string ID = " ";
 
-        if(input =="y"){
-            std::string ID = " ";
+            		while(ID.compare(" ") == 0){
+                		cout<<"What is the site ID?"<<endl;
+                		getline(std::cin, ID);
+            		}
 
-            while(ID.compare(" ") == 0){
-                cout<<"What is the site ID?"<<endl;
-                getline(std::cin, ID);
-            }
+            		bool found = false;//indicates whether at least one with the same index has been found
+            		for(unsigned int i=0; i < (node->siteID).size(); i++){
+               			if(std::to_string(node->siteID[i]).compare(ID)== 0){//change to string to more easily handle invalid user input(e.g. string instead of int)
+                    			if(!found){//first instance in vector
+                        			cout<<"Site ID:" << node->siteID[i]<<endl;
+                        			cout<<"Elevation:" <<node->elevation[i]<<endl;
+                        			cout<<"----------"<<endl;
+                        			found = true;
+                    			}
+                    			if(node->date[i].length() ==8){
+                        			cout<<node->date[i].substr(0,2)<<"/"<<node->date[i].substr(2,2)<<"/"<<node->date[i].substr(4,4)<< ": " <<node->phenophase[i]<<endl;
+                    			}else{
+                        			cout<<node->date[i].substr(0,2)<<"/"<<node->date[i].substr(2,1)<<"/"<<node->date[i].substr(3,4)<<": " <<node->phenophase[i]<<endl;
+                    			}
 
-            bool found = false;//indicates whether at least one with the same index has been found
-            for(unsigned int i=0; i < (node->siteID).size(); i++){
-               if(std::to_string(node->siteID[i]).compare(ID)== 0){//change to string to more easily handle invalid user input(e.g. string instead of int)
-                    if(!found){//first instance in vector
-                        cout<<"Site ID:" << node->siteID[i]<<endl;
-                        cout<<"Elevation:" <<node->elevation[i]<<endl;
-                        cout<<"----------"<<endl;
-                        found = true;
-                    }
-                    if(node->date[i].length() ==8){
-                        cout<<node->date[i].substr(0,2)<<"/"<<node->date[i].substr(2,2)<<"/"<<node->date[i].substr(4,4)<< ": " <<node->phenophase[i]<<endl;
-                    }
-                    else{
-                        cout<<node->date[i].substr(0,2)<<"/"<<node->date[i].substr(2,1)<<"/"<<node->date[i].substr(3,4)<<": " <<node->phenophase[i]<<endl;
+                		}
+            		}
+            		if(!found){
+                		cout<<"Sorry, that ID could not be found" <<endl;
+            		}
 
-
-                    }
-
-                }
-            }
-
-            if(!found){
-                cout<<"Sorry, that ID could not be found" <<endl;
-            }
-
-            }
+            	}
         }
 }
 
@@ -389,7 +393,47 @@ void RedBlackTree::rightRotate(rbNode *x) {
 	x->parent = y;
 }
 
+int RedBlackTree::rbValid(rbNode *node) {
+	int lh = 0;
+	int rh = 0;
+	// If we are at a nil node just return 1
+    	if (node == nil)
+        	return 1; 
 
+    	else {
+        	rbNode * ln = node->left;
+        	rbNode * rn = node->right;
+
+        	// consecutive red links 
+        	if (node->isRed)
+        	{
+            		if(ln->isRed || rn->isRed)
+            		{
+                	cout << "red violation\n";
+                	return 0;
+            		}
+        	}
+
+        	lh = rbValid(ln);
+        	rh = rbValid(rn);
+
+        	// black height mismatch 
+        	if (lh != 0 && rh != 0 && lh != rh)
+        	{
+            		cout << "Black height violation\n";
+            		return 0;
+        	}
+
+        	if (lh != 0 && rh != 0)
+        	{
+                	return node->isRed ? lh : lh + 1;
+        	}
+        	else
+        	{
+            		return 0;
+        	}
+	}
+}
 
 
 
