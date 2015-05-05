@@ -12,13 +12,13 @@ struct dataNode {
 	std::vector<int> siteID;
 	std::vector<std::string> date;
 	int count;  // number of times animal/plant has an entry in database
-	
+
 	dataNode *left;
 	dataNode *right;
 	dataNode *parent;
-	
+
 	dataNode(){};
-	
+
 	dataNode (std::string in_commonName, std::string in_sciName, std::string in_phenophase, int in_elevation, int in_siteID, std::string in_date, int count) {
 		commonName = in_commonName;
 		sciName = in_sciName;
@@ -41,13 +41,13 @@ class BinarySearchTree {
 		void addDataNode(std::string in_commonName, std::string in_sciName, std::string in_phenophase, int in_elevation, int in_siteID, std::string in_date, int count);
 		void findDataNode(std::string commonName);
 		void deleteDataNode(std::string commonName);
-		
+
 	protected:
-	
+
 	private:
 		void deleteAll(dataNode *node);  // postorder
 		void printTree(dataNode *node);
-		void printNode(dataNode *node);
+		void printNode(dataNode *node, bool lookUp);
 		dataNode* searchBSTree(dataNode *node, std::string commonName);
 		dataNode *root;
 };
