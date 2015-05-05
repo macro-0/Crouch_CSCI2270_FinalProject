@@ -132,6 +132,13 @@ int main(int argc, char* argv[]) {
 					case 5:
 						rbQuit = true;
 						break;
+					case 6:		
+						if (rb->isValid()) {		
+							cout << "Tree is valid" << endl;		
+						} else {		
+							cout << "Tree is not valid" << endl;		
+						}		
+						break;
 					default:
 						cout << "invalid input, please try again" << endl;
 						break;
