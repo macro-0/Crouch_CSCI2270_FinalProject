@@ -83,41 +83,43 @@ void RedBlackTree::findDataNode(string commonName) {
 	return;
 }
 
-void RedBlackTree::deleteDataNode(string commonName) {
+void RedBlackTree::deleteDataNode(string commonName) {  // fix seg faults here
 	rbNode *z = searchRBTree(root, commonName);
-	rbNode *y = z;
-	rbNode *x = nil;
-	bool yOrigColor = y->isRed;
-
-	if (z->left == nil) {
-		x = z->right;
-		rbTransplant(z, z->right);  // todo
-	} else if (z->right == nil) {
-		x = z->left;
-		rbTransplant(z, z->right);
-	} else {
-		y = z->right;
-		while (y->left != nil) {
-			y = y->left;
-		}
-		yOrigColor = y->isRed;
-		x = y->right;
-		if (y->parent == z) {
-			x->parent = y;
+	if (z != nil) {
+		rbNode *y = z;
+		rbNode *x = nil;
+		bool yOrigColor = y->isRed;
+	
+		if (z->left == nil) {
+			x = z->right;
+			rbTransplant(z, z->right);
+		} else if (z->right == nil) {
+			x = z->left;
+			rbTransplant(z, z->right);
 		} else {
-			rbTransplant(y, y->right);
-			y->right = z->right;
-			y->right->parent = y;
+			y = z->right;
+			while (y->left != nil) {
+				y = y->left;
+			}
+			yOrigColor = y->isRed;
+			x = y->right;
+			if (y->parent == z) {
+				x->parent = y;
+			} else {
+				rbTransplant(y, y->right);
+				y->right = z->right;
+				y->right->parent = y;
+			}
+			rbTransplant(z,y);
+			y->left = z->left;
+			y->left->parent = y;
+			y->isRed = z->isRed;
 		}
-		rbTransplant(z,y);
-		y->left = z->left;
-		y->left->parent = y;
-		y->isRed = z->isRed;
-	}
-	delete z;
-
-	if (!yOrigColor) {
-		rbDeleteFixup(x);
+		delete z;
+		
+		if (!yOrigColor) {
+			rbDeleteFixup(x);
+		}
 	}
 }
 
