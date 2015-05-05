@@ -43,7 +43,7 @@ class RedBlackTree {
 		void addDataNode(std::string in_commonName, std::string in_sciName, std::string in_phenophase, int in_elevation, int in_siteID, std::string in_date, int count);
 		void findDataNode(std::string commonName);
 		void deleteDataNode(std::string commonName);
-
+		bool isValid();
 
 	protected:
 
@@ -57,6 +57,7 @@ class RedBlackTree {
 		void rbTransplant(rbNode *u, rbNode *v);
 		void leftRotate(rbNode *x);
 		void rightRotate(rbNode *x);
+		int rbValid(rbNode *node);
 		rbNode *root;
 		rbNode *nil;
 };
